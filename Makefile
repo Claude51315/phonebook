@@ -13,10 +13,10 @@ phonebook_orig: $(SRCS_common) phonebook_orig.c phonebook_orig.h
 		-DIMPL="\"$@.h\"" -o $@ \
 		$(SRCS_common) $@.c
 
-phonebook_opt: $(SRCS_common) phonebook_opt.c phonebook_opt.h
+phonebook_opt: $(SRCS_common) phonebook_opt.c phonebook_opt.h 
 	$(CC) $(CFLAGS_common) $(CFLAGS_opt) \
 		-DIMPL="\"$@.h\"" -o $@ \
-		$(SRCS_common) $@.c
+		hashmain.c $@.c
 
 run: $(EXEC)
 	echo 3 | sudo tee /proc/sys/vm/drop_caches
@@ -35,6 +35,8 @@ output.txt: cache-test calculate
 
 plot: output.txt
 	gnuplot scripts/runtime.gp
+customplot: output.txt
+	gnuplot scripts/custom.gp
 
 calculate: calculate.c
 	$(CC) $(CFLAGS_common) $^ -o $@
@@ -44,6 +46,5 @@ clean:
 	$(RM) $(EXEC) *.o perf.* \
 	      	calculate orig.txt opt.txt output.txt runtime.png
 astyle:
-	astyle --style=kr --indent=spaces=4 --indent-switches --suffix=none phonebook_opt.c phonebook_opt.h 
-
+	astyle --style=kr --indent=spaces=4 --indent-switches --suffix=none phonebook_opt.c phonebook_opt.h hashmain.c
 

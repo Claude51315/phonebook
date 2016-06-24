@@ -8,6 +8,8 @@
 #define OPT 1
 typedef struct __PHONE_BOOK_ENTRY entry;
 typedef struct __PHONE_BOOK_DETAIL detail;
+typedef struct __PHONE_BOOK_HASH_TABLE hashTable ;
+typedef unsigned int hashIndex ;
 
 typedef struct __PHONE_BOOK_ENTRY {
     char lastName[MAX_LAST_NAME_SIZE];
@@ -25,7 +27,21 @@ typedef struct __PHONE_BOOK_DETAIL {
     char state[2];
     char zip[5];
 } detail;
+typedef struct __PHONE_BOOK_HASH_TABLE {
+    unsigned int  tableSize ;
+    entry **list ;
+} hashTable;
+
 entry *findName(char lastname[], entry *pHead);
 entry *append(char lastName[], entry *e);
+hashTable* createHashTable(int tableSize);
+hashTable* hashAppend(char lastName[] ,hashTable* ht );
+entry* hashFindName(char lastName[] , hashTable* ht);
+hashIndex hash1(char* key , hashTable *ht) ;
+
+
+
+
+
 
 #endif
