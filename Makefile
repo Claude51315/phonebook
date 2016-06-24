@@ -39,7 +39,11 @@ plot: output.txt
 calculate: calculate.c
 	$(CC) $(CFLAGS_common) $^ -o $@
 
-.PHONY: clean
+.PHONY: clean astyle
 clean:
 	$(RM) $(EXEC) *.o perf.* \
 	      	calculate orig.txt opt.txt output.txt runtime.png
+astyle:
+	astyle --style=kr --indent=spaces=4 --indent-switches --suffix=none phonebook_opt.c phonebook_opt.h 
+
+
