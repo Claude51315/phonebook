@@ -7,6 +7,7 @@ in the `LICENSE` file.
 
 # Development log
 [成大資工2016嵌入式系統作業一：電話簿](http://wiki.csie.ncku.edu.tw/embedded/2016q1h1)
+
 [HACKMD連結](https://hackmd.io/s/H1VTlDqS)
 ## environment 
 - ubuntu 15.10
