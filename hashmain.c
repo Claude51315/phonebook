@@ -38,7 +38,7 @@ int main(int argc, char *argv[])
 
     /* build the entry */
     hashTable* ht = createHashTable(45577);
-
+    pool* p = createNewPool();
     entry *pHead, *e;
     pHead = (entry *) malloc(sizeof(entry));
     //printf("size of entry : %lu bytes\n", sizeof(entry));
@@ -55,7 +55,7 @@ int main(int argc, char *argv[])
         line[i - 1] = '\0';
         i = 0;
         //e = append(line, e);
-        hashAppend(line , ht);
+        hashAppend(line , ht , p );
     }
     clock_gettime(CLOCK_REALTIME, &end);
     cpu_time1 = diff_in_second(start, end);
@@ -92,8 +92,8 @@ int main(int argc, char *argv[])
     fprintf(output, "append() findName() %lf %lf\n", cpu_time1, cpu_time2);
     fclose(output);
 
-    //printf("execution time of append() : %lf sec\n", cpu_time1);
-    //printf("execution time of findName() : %lf sec\n", cpu_time2);
+    printf("execution time of append() : %lf sec\n", cpu_time1);
+    printf("execution time of findName() : %lf sec\n", cpu_time2);
 
     if (pHead->pNext) free(pHead->pNext);
     free(pHead);

@@ -44,10 +44,11 @@ hashTable* createHashTable(int tableSize)
     }
     return ht ;
 }
-hashTable* hashAppend(char lastName[] , hashTable* ht)
+hashTable* hashAppend(char lastName[] , hashTable* ht , pool* p)
 {
     hashIndex hi = hash1(lastName , ht);
-    entry* newEntry = malloc(sizeof(entry)) ;
+    //entry* newEntry = malloc(sizeof(entry)) ;
+    entry* newEntry= allocateFromPool(p);
     if(newEntry == NULL) {
         assert("no enough memory for entry!");
         return NULL;
@@ -75,9 +76,39 @@ hashIndex hash1 (char* key , hashTable *ht)
     }
     return sum % ht->tableSize;
 }
+/* memory pool */
+pool* createNewPool()
+{
+    pool* newPool = malloc(sizeof(pool)) ;
+    if(newPool == NULL) {
+        assert("no enough memory for newPool struct");
+        return NULL;
+    }
+    newPool->entryPool = malloc(sizeof(entry) * POOL_SIZE);
+    if(newPool->entryPool == NULL) {
+        assert("no enough memory for newPool allocation");
+        return NULL ;
+    }
+    newPool->count = 0 ;
+    newPool->pNext = NULL;
+    newPool->cur = newPool->entryPool ;
+    return newPool ;
+}
+entry* allocateFromPool(pool* pHead)
+{
+    entry* p;
+    if(pHead->count < POOL_SIZE ) {
+        p = pHead->cur ;
+        pHead->cur ++ ;
+        pHead->count ++ ;
+        //printf("pHead->count = %d\n" , pHead->count  );
+        return p ;
+    } else {
 
-
-
-
-
+        if(pHead->pNext ==NULL) {
+            pHead->pNext = createNewPool();
+        }
+        return allocateFromPool(pHead->pNext);
+    }
+}
 
