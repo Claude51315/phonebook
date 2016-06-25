@@ -44,11 +44,10 @@ hashTable* createHashTable(int tableSize)
     }
     return ht ;
 }
-hashTable* hashAppend(char lastName[] , hashTable* ht , pool* p)
+hashTable* hashAppend(char lastName[] , hashTable* ht )
 {
     hashIndex hi = hash1(lastName , ht);
-    //entry* newEntry = malloc(sizeof(entry)) ;
-    entry* newEntry= allocateFromPool(p);
+    entry* newEntry = malloc(sizeof(entry)) ;
     if(newEntry == NULL) {
         assert("no enough memory for entry!");
         return NULL;
@@ -111,4 +110,28 @@ entry* allocateFromPool(pool* pHead)
         return allocateFromPool(pHead->pNext);
     }
 }
+entry *poolAppend(char lastName[], entry *e , pool* p )
+{
+    entry* newEntry =  allocateFromPool(p) ;
+    newEntry -> pNext = NULL;
+    e-> pNext = newEntry ;
+    strncpy(newEntry->lastName , lastName , MAX_LAST_NAME_SIZE);
+    return newEntry;
+}
+/* hash + pool Append */
+hashTable* hashPoolAppend(char lastName[] , hashTable* ht , pool* p)
+{
+    hashIndex hi = hash1(lastName , ht);
+    entry* newEntry = allocateFromPool(p) ;
+    if(newEntry == NULL) {
+        assert("no enough memory for entry!");
+        return NULL;
+    }
+    strcpy(newEntry->lastName , lastName);
+    newEntry->pNext = ht->list[hi] ;
+    ht->list[hi] = newEntry ;
+    return ht;
+}
+
+
 

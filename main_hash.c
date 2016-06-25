@@ -38,7 +38,6 @@ int main(int argc, char *argv[])
 
     /* build the entry */
     hashTable* ht = createHashTable(45577);
-    pool* p = createNewPool();
     entry *pHead, *e;
     pHead = (entry *) malloc(sizeof(entry));
     //printf("size of entry : %lu bytes\n", sizeof(entry));
@@ -55,7 +54,7 @@ int main(int argc, char *argv[])
         line[i - 1] = '\0';
         i = 0;
         //e = append(line, e);
-        hashAppend(line , ht , p );
+        hashAppend(line , ht);
     }
     clock_gettime(CLOCK_REALTIME, &end);
     cpu_time1 = diff_in_second(start, end);
@@ -85,7 +84,7 @@ int main(int argc, char *argv[])
 
     FILE *output;
 #if defined(OPT)
-    output = fopen("opt.txt", "a");
+    output = fopen("hash.txt", "a");
 #else
     output = fopen("orig.txt", "a");
 #endif

@@ -43,8 +43,48 @@ int main(void)
         opt_sum_a += opt_a;
         opt_sum_f += opt_f;
     }
-    fprintf(output, "append() %lf %lf\n",orig_sum_a / 100.0, opt_sum_a / 100.0);
-    fprintf(output, "findName() %lf %lf", orig_sum_f / 100.0, opt_sum_f / 100.0);
+    /* hash */
+    fp = fopen("hash.txt", "r");
+    if (!fp) {
+        fp = fopen("orig.txt", "r");
+        if (!fp) {
+            printf("ERROR opening input file opt.txt\n");
+            exit(0);
+        }
+    }
+    double hash_sum_a = 0.0, hash_sum_f = 0.0, hash_a, hash_f;
+    for (i = 0; i < 100; i++) {
+        if (feof(fp)) {
+            printf("ERROR: You need 100 datum instead of %d\n", i);
+            printf("run 'make run' longer to get enough information\n\n");
+            exit(0);
+        }
+        fscanf(fp, "%s %s %lf %lf\n", append, find,&hash_a, &hash_f);
+        hash_sum_a += hash_a;
+        hash_sum_f += hash_f;
+    }
+    /* pool */
+    fp = fopen("pool.txt", "r");
+    if (!fp) {
+        fp = fopen("orig.txt", "r");
+        if (!fp) {
+            printf("ERROR opening input file opt.txt\n");
+            exit(0);
+        }
+    }
+    double pool_sum_a = 0.0, pool_sum_f = 0.0, pool_a, pool_f;
+    for (i = 0; i < 100; i++) {
+        if (feof(fp)) {
+            printf("ERROR: You need 100 datum instead of %d\n", i);
+            printf("run 'make run' longer to get enough information\n\n");
+            exit(0);
+        }
+        fscanf(fp, "%s %s %lf %lf\n", append, find,&pool_a, &pool_f);
+        pool_sum_a += pool_a;
+        pool_sum_f += pool_f;
+    }
+    fprintf(output, "append() %lf %lf %lf %lf\n", orig_sum_a / 100.0, hash_sum_a / 100.0, pool_sum_a / 100.0, opt_sum_a / 100.0);
+    fprintf(output, "findName() %lf %lf %lf %lf", orig_sum_f / 100.0, hash_sum_f / 100.0, pool_sum_f / 100.0, opt_sum_f / 100.0);
     fclose(output);
     fclose(fp);
     return 0;

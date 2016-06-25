@@ -17,7 +17,6 @@ typedef struct __PHONE_BOOK_HASH_TABLE hashTable ;
 typedef unsigned int hashIndex ;
 typedef struct __PHONE_BOOK_MEMORY_POOL pool ;
 
-
 /*
  * basic struct
  */
@@ -57,17 +56,22 @@ entry *findName(char lastname[], entry *pHead);
 entry *append(char lastName[], entry *e);
 
 /*
+ * hash function
+ */
+hashTable* createHashTable(int tableSize);
+hashTable* hashAppend(char lastName[] ,hashTable* ht );
+entry* hashFindName(char lastName[] , hashTable* ht);
+hashIndex hash1(char* key , hashTable *ht) ;
+
+/*
  * memory pool
  */
 pool* createNewPool() ;
 entry* allocateFromPool(pool* pHead);
-/*
- * hash function
- */
-hashTable* createHashTable(int tableSize);
-hashTable* hashAppend(char lastName[] ,hashTable* ht , pool* p );
-entry* hashFindName(char lastName[] , hashTable* ht);
-hashIndex hash1(char* key , hashTable *ht) ;
+entry* poolAppend(char lastName[] , entry* e , pool* p ) ;
+
+/* hash + pool Append*/
+hashTable* hashPoolAppend(char lastName[] , hashTable* ht , pool* p );
 
 #endif
 
